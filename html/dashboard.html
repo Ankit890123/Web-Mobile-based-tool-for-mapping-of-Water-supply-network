@@ -1,0 +1,299 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Water Supply Mapping System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
+
+    <!-- Embedded CSS -->
+    <style>
+       
+        /*===== GOOGLE FONTS =====*/
+        .dm-serif-text-regular {
+  font-family: "DM Serif Text", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.dm-serif-text-regular-italic {
+  font-family: "DM Serif Text", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+
+
+
+        /*===== VARIABLES CSS =====*/
+        :root {
+            --header-height: 3rem;
+            --font-semi: 600;
+            --hue-color: 224;
+            --first-color: hsl(var(--hue-color), 89%, 60%);
+            --second-color: hsl(var(--hue-color), 56%, 12%);
+            --body-font : ;
+            --big-font-size: 2rem;
+            --h2-font-size: 1.25rem;
+            --normal-font-size: .938rem;
+            --smaller-font-size: .75rem;
+            --mb-2: 1rem;
+            --mb-4: 2rem;
+            --mb-5: 2.5rem;
+            --mb-6: 3rem;
+            --z-back: -10;
+            --z-fixed: 100;
+        }
+        @media screen and (min-width: 968px) {
+            :root {
+                --big-font-size: 3.5rem;
+                --h2-font-size: 2rem;
+                --normal-font-size: 1rem;
+                --smaller-font-size: .875rem;
+            }
+        }
+
+        /*===== BASE =====*/
+        *, ::before, ::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            width: 80%;
+            margin-left: 30px;
+        }
+
+        body {
+            margin: var(--header-height) 0 0 0;
+            font-family: var(--body-font);
+            font-size: var(--normal-font-size);
+            color: var(--second-color);
+            margin-left: 30px;
+        }
+
+        h1, h2, p {
+            margin: 0;
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 50px 20px;
+        }
+
+        /*===== CLASS CSS ===== */
+        .section-title {
+            position: relative;
+            font-size: var(--h2-font-size);
+            color: var(--first-color);
+            margin-top: var(--mb-2);
+            margin-bottom: var(--mb-4);
+            text-align: center;
+        }
+        .section-title::after {
+            /* position: absolute; */
+            content: "";
+            width: 64px;
+            height: 0.18rem;
+            left: 0;
+            right: 0;
+            margin: auto;
+            top: 2rem;
+            background-color: var(--first-color);
+        }
+
+        .section {
+            padding-top: 3rem;
+            padding-bottom: 2rem;
+        }
+
+        .bd-grid {
+            max-width: 1024px;
+            display: grid;
+            margin-left: var(--mb-2);
+            margin-right: var(--mb-2);
+        }
+
+        /* Layout for image on the left and content on the right */
+        .content-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .content-section img {
+            width: 40%; /* Set the image width to 40% of the container */
+        }
+
+        .content-section .content-text {
+            width: 60%; /* Set the text content width to 60% of the container */
+        }
+
+        /*===== HEADER =====*/
+        .l-header {
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: var(--z-fixed);
+            background-color: #fff;
+            box-shadow: 0 1px 4px rgba(146, 161, 176, 0.15);
+        }
+
+        /*===== NAVIGATION =====*/
+        .nav {
+            height: var(--header-height);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: var(--font-semi);
+            margin: 20px;
+        }
+        .nav__list {
+            display: flex;
+        }
+        .nav__item {
+            margin-left: var(--mb-6);
+        }
+        .nav__link {
+            position: relative;
+            color: var(--second-color);
+        }
+        .nav__logo {
+            color: var(--second-color);
+            margin-left: 30px;
+        }
+
+        /*===== BUTTONS =====*/
+        .button {
+            display: inline-block;
+            background-color: var(--first-color);
+            color: #fff;
+            padding: 0.75rem 2.5rem;
+            font-weight: var(--font-semi);
+            border-radius: 0.5rem;
+            transition: 0.3s;
+        }
+        .button:hover {
+            box-shadow: 0px 10px 36px rgba(0, 0, 0, 0.15);
+        }
+
+        /* ===== FOOTER =====*/
+        .footer {
+            background-color: var(--second-color);
+            color: #fff;
+            text-align: center;
+            font-weight: var(--font-semi);
+            padding: 2rem 0;
+        }
+        .footer__title {
+            font-size: 2rem;
+            margin-bottom: var(--mb-4);
+        }
+        .footer__social {
+            margin-bottom: var(--mb-4);
+        }
+        .footer__icon {
+            font-size: 1.5rem;
+            color: #fff;
+            margin: 0 var(--mb-2);
+        }
+        .footer__copy {
+            font-size: var(--smaller-font-size);
+        }
+
+        /*===== MEDIA QUERIES=====*/
+        @media screen and (max-width: 768px) {
+            .nav__list {
+                flex-direction: column;
+            }
+
+            .content-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .content-section img {
+                width: 100%; /* Image full width on small screens */
+                margin-bottom: var(--mb-2);
+            }
+
+            .content-section .content-text {
+                width: 100%; /* Text full width on small screens */
+            }
+        }
+        iframe{
+            border-radius: 50px 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="l-header">
+        <nav class="nav">
+            <a href="#" class="nav__logo">Water Supply</a>
+            <ul class="nav__list">
+                <li class="nav__item"><a href="map.html" class="nav__link">Map</a></li>
+                <li class="nav__item"><a href="alerts.html" class="nav__link">Alerts</a></li>
+                <li class="nav__item"><a href="grievance.html" class="nav__link">Grievance</a></li>
+                <li class="nav__item"><a href="status.html" class="nav__link">Status</a></li>
+                <li class="nav__item"><a href="initial.html" class="nav__link">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="section bd-grid">
+            <div class="content-section">
+                <img src="imag/image copy9.png" alt="Water Supply Map">
+                <div class="content-text">
+                    <h2 class="section-title">Water Supply Distribution Map</h2>
+                    <p>This interactive map shows the water supply routes, pipelines, and reservoirs across the city. Click on different areas to learn more about the water distribution in your locality.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section bd-grid">
+            <div class="content-section">
+                <img src="imag/image copy 2.png" alt="Sustainable Water Usage">
+                <div class="content-text">
+                    <h2 class="section-title">Sustainable Water Usage</h2>
+                    <p>Learn about the importance of conserving water and adopting sustainable practices in your daily life. Every drop counts! Here are some tips:</p>
+                    <ul>
+                        <li>Fix leaks in your home.</li>
+                        <li>Install water-efficient fixtures.</li>
+                        <li>Collect rainwater for gardening.</li>
+                        <li>Be mindful of water usage during showers and while washing dishes.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section bd-grid">
+            <div class="content-section">
+                
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/YTeRc-41EeE?si=AXwgnS-Si3uKyDeQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <div class="content-text">
+                    <h2 class="section-title">Recent Alerts</h2>
+                    <p>Stay updated with the latest alerts regarding water quality and supply issues in various neighborhoods. Watch this video for the most recent notifications.</p>
+                </div>
+            </
+    
+    
+        
