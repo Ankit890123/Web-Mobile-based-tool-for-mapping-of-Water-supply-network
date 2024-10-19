@@ -18,7 +18,7 @@
   </tr>
   <tr>
     <td>02</td>
-    <td>Ankikumar Gupta</td>
+    <td>Ankitkumar Gupta</td>
     <td>10</td>
   </tr>
   <tr>
