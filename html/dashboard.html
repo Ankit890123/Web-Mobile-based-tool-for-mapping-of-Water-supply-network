@@ -46,17 +46,22 @@
         html {
             scroll-behavior: smooth;
             width: 80%;
-            margin-left: 30px;
+            margin-left: 10rem;
         }
 
         body {
-            margin: var(--header-height) 0 0 0;
+            /* margin: var(--header-height) 0 0 0; */
             font-family: var(--body-font);
             font-size: var(--normal-font-size);
             color: var(--second-color);
-            margin-left: 30px;
+            margin-left: 6rem;
+            background-image: url("imag/dashboard.jpg");
+            background-size: 250%;
         }
-
+        li.nav__item:hover{
+            box-shadow: -20px 20px 10px wheat;
+        }
+        
         h1, h2, p {
             margin: 0;
         }
@@ -110,6 +115,10 @@
             margin-left: var(--mb-2);
             margin-right: var(--mb-2);
         }
+        #firstone{
+            margin-top: 3rem;
+
+        }
 
         /* Layout for image on the left and content on the right */
         .content-section {
@@ -117,6 +126,9 @@
             align-items: center;
             justify-content: space-between;
             gap: 2rem;
+            background-color: white;
+            border-radius: 20px;
+            padding: 3rem 2rem;
         }
 
         .content-section img {
@@ -125,6 +137,7 @@
 
         .content-section .content-text {
             width: 60%; /* Set the text content width to 60% of the container */
+            /* background-color: #fff; */
         }
 
         /*===== HEADER =====*/
@@ -145,8 +158,9 @@
             justify-content: space-between;
             align-items: center;
             font-weight: var(--font-semi);
-            margin: 20px;
+            margin-right: 0.7rem 5rem;
         }
+        
         .nav__list {
             display: flex;
         }
@@ -156,6 +170,7 @@
         .nav__link {
             position: relative;
             color: var(--second-color);
+            margin-right: 50px;
         }
         .nav__logo {
             color: var(--second-color);
@@ -242,7 +257,7 @@
 
     <main>
         <section class="section bd-grid">
-            <div class="content-section">
+            <div class="content-section" id="firstone">
                 <img src="imag/image copy9.png" alt="Water Supply Map">
                 <div class="content-text">
                     <h2 class="section-title">Water Supply Distribution Map</h2>
