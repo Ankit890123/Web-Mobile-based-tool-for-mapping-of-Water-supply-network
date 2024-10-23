@@ -4,7 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Water Supply Mapping</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
     <link rel="icon" href="imag/applogo.png" />
     <style>
       body {
@@ -23,8 +28,8 @@
       }
 
       footer {
-        background: #4caf50;
-        color: white;
+        background: #cbc8bf;
+        color: #000;
         padding: 1em 0;
         text-align: center;
         position: absolute;
@@ -33,24 +38,24 @@
       }
 
       header {
-        background: #4caf50;
-        color: white;
+        background: #cbc8bf;
+        color: #000;
         padding: 1em 0;
         text-align: center;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 6px #fff;
       }
 
       header nav a {
-        color: white;
+        color: #000;
         text-decoration: none;
         padding: 0.5em 1em;
         margin: 0 0.5em;
-        border-radius: 5px;
+        border-radius: 10px;
         transition: background-color 0.3s;
       }
 
       header nav a:hover {
-        background-color: rgba(255, 255, 255, 0.2);
+        background-color: rgb(255, 255, 255);
       }
     </style>
   </head>
@@ -70,31 +75,65 @@
     <footer>
       <p>&copy; 2024 Water Supply Mapping System. All rights reserved.</p>
       <p>Developed By:</p>
-      <p>Ankit &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;group no 9</p>
+      <p>Vishwajeet & Ankit &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;group no 9</p>
       <p>Email: <a href="mailto:ankit@gmail.com">ankit@gmail.com</a></p>
     </footer>
 
     <!-- Include Leaflet JavaScript -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
     <script>
       // Initialize the map
-      const map = L.map("map").setView([19.2867, 72.8610], 15); // Set the initial view to the starting point
+      const map = L.map("map").setView([19.2867, 72.861], 15); // Set the initial view to the starting point
 
       // Add OpenStreetMap tile layer
-      const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '© OpenStreetMap contributors'
-      }).addTo(map);
+      const osmLayer = L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+          maxZoom: 19,
+          attribution: "© OpenStreetMap contributors",
+        }
+      ).addTo(map);
 
       // Add markers for the locations
-      const kanakiaPark = L.marker([19.2867, 72.8610]).addTo(map).bindPopup('Kanakia Park').bindTooltip('Shree LR Tiwari College Of Engineering', { permanent: true, direction: "right" });
-      const lalBahadurMarg = L.marker([19.2834, 72.8683]).addTo(map).bindPopup('Lal Bahadur Shastri Marg').bindTooltip('Lal Bahadur Shastri Marg', { permanent: true, direction: "right" });
-      const ozoneBudha = L.marker([19.2766, 72.8644]).addTo(map).bindPopup('Ozone 3 Budha Enterprises').bindTooltip('Ozone 3 Budha Enterprises', { permanent: true, direction: "right" });
-      const inorbitMall = L.marker([19.1750, 72.8363]).addTo(map).bindPopup('Inorbit Mall, Malad').bindTooltip('Inorbit Mall, Malad', { permanent: true, direction: "right" });
+      const kanakiaPark = L.marker([19.2867, 72.861])
+        .addTo(map)
+        .bindPopup("Kanakia Park")
+        .bindTooltip("Shree LR Tiwari College Of Engineering", {
+          permanent: true,
+          direction: "right",
+        });
+      const lalBahadurMarg = L.marker([19.2834, 72.8683])
+        .addTo(map)
+        .bindPopup("Lal Bahadur Shastri Marg")
+        .bindTooltip("Lal Bahadur Shastri Marg", {
+          permanent: true,
+          direction: "right",
+        });
+      const ozoneBudha = L.marker([19.2766, 72.8644])
+        .addTo(map)
+        .bindPopup("Ozone 3 Budha Enterprises")
+        .bindTooltip("Ozone 3 Budha Enterprises", {
+          permanent: true,
+          direction: "right",
+        });
+      const inorbitMall = L.marker([19.175, 72.8363])
+        .addTo(map)
+        .bindPopup("Inorbit Mall, Malad")
+        .bindTooltip("Inorbit Mall, Malad", {
+          permanent: true,
+          direction: "right",
+        });
 
       // Function to create a colorful animated pipe
       function animatePipe(start, end) {
-        let line = L.polyline([start, start], { color: getRandomColor(), weight: 4 }).addTo(map); // Start with an empty line
+        let line = L.polyline([start, start], {
+          color: getRandomColor(),
+          weight: 4,
+        }).addTo(map); // Start with an empty line
         let progress = 0; // Progress percentage (0 to 1)
 
         const animate = () => {
@@ -102,7 +141,10 @@
           if (progress <= 1) {
             const lat = start[0] + (end[0] - start[0]) * progress;
             const lng = start[1] + (end[1] - start[1]) * progress;
-            line.setLatLngs([[start[0], start[1]], [lat, lng]]); // Update line to current progress
+            line.setLatLngs([
+              [start[0], start[1]],
+              [lat, lng],
+            ]); // Update line to current progress
             requestAnimationFrame(animate); // Continue the animation
           } else {
             // Finish drawing the line
@@ -120,8 +162,8 @@
 
       // Function to get a random color
       function getRandomColor() {
-        const letters = '0123456789ABCDEF';
-        let color = '#';
+        const letters = "0123456789ABCDEF";
+        let color = "#";
         for (let i = 0; i < 6; i++) {
           color += letters[Math.floor(Math.random() * 16)];
         }
@@ -130,18 +172,20 @@
 
       // Define the connections
       const connections = [
-        [19.2867, 72.8610, 19.2834, 72.8683],  // Kanakia to Lal Bahadur Shastri Marg
-        [19.2867, 72.8610, 19.2766, 72.8644],  // Kanakia to Ozone 3 Budha Enterprises
-        [19.2867, 72.8610, 19.1750, 72.8363]   // Kanakia to Inorbit Mall
+        [19.2867, 72.861, 19.2834, 72.8683], // Kanakia to Lal Bahadur Shastri Marg
+        [19.2867, 72.861, 19.2766, 72.8644], // Kanakia to Ozone 3 Budha Enterprises
+        [19.2867, 72.861, 19.175, 72.8363], // Kanakia to Inorbit Mall
       ];
 
       // Start animating all connections
-      connections.forEach(conn => animatePipe([conn[0], conn[1]], [conn[2], conn[3]]));
+      connections.forEach((conn) =>
+        animatePipe([conn[0], conn[1]], [conn[2], conn[3]])
+      );
 
       // Zoom to the starting point with animation
-      map.flyTo([19.2867, 72.8610], 15, {
+      map.flyTo([19.2867, 72.861], 15, {
         animate: true,
-        duration: 2 // Duration in seconds
+        duration: 2, // Duration in seconds
       });
     </script>
   </body>
