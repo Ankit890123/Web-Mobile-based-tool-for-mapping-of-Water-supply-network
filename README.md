@@ -28,3 +28,5 @@
   </tr> 
 </table>
 
+<b>1. First file is index.html ->so open this one first<b>
+
