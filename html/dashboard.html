@@ -56,7 +56,7 @@
             color: var(--second-color);
             margin-left: 6rem;
             background-image: url("imag/dashboard.jpg");
-            background-size: 250%;
+            background-size: cover;
         }
         li.nav__item:hover{
             box-shadow: -20px 20px 10px wheat;
@@ -141,56 +141,49 @@
         }
 
         /*===== HEADER =====*/
-        .l-header {
-            width: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: var(--z-fixed);
-            background-color: #fff;
-            box-shadow: 0 1px 4px rgba(146, 161, 176, 0.15);
-        }
+        header {
+        box-shadow: 0 1px 4px rgba(146, 161, 176, 0.15);
+        padding: 10px 0;
+        text-align: center;
+        width: 100%;
+        position: static;
+        z-index: var(--z-fixed);
+      }
+      h1 {
+        text-shadow: 2px 1px 10px white;
+      }
 
-        /*===== NAVIGATION =====*/
-        .nav {
-            height: var(--header-height);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: var(--font-semi);
-            margin-right: 0.7rem 5rem;
-        }
+      .b nav {
+        margin-top: 10px;
+        height: var(--header-height);
+        align-items: center;
+        font-weight: var(--font-semi);
+        margin-right: 0.7rem 5rem;
+      }
+
+      .b a {
+        /* color: white; */
+        background-color: var(--first-color);
+        display: inline-block;
+        text-decoration: none;
+        padding: 0.75rem 2.5rem;
+        /* display: flex; */
+        position: relative;
+        color: var(--second-color);
+        margin-right: 50px;
+        font-weight: var(--font-semi);
+        border-radius: 50px;
+        transition: 0.3s;
+        color: #fff;
+      }
+
+      .b a:hover {
+        background-color: #3df346;
+        color: #000;
+        box-shadow: 0px 10px 36px rgba(0, 0, 0, 0.15);
+        border: #ddd solid 0.2rem;
+      }
         
-        .nav__list {
-            display: flex;
-        }
-        .nav__item {
-            margin-left: var(--mb-6);
-        }
-        .nav__link {
-            position: relative;
-            color: var(--second-color);
-            margin-right: 50px;
-        }
-        .nav__logo {
-            color: var(--second-color);
-            margin-left: 30px;
-        }
-
-        /*===== BUTTONS =====*/
-        .button {
-            display: inline-block;
-            background-color: var(--first-color);
-            color: #fff;
-            padding: 0.75rem 2.5rem;
-            font-weight: var(--font-semi);
-            border-radius: 0.5rem;
-            transition: 0.3s;
-        }
-        .button:hover {
-            box-shadow: 0px 10px 36px rgba(0, 0, 0, 0.15);
-        }
-
         /* ===== FOOTER =====*/
         .footer {
             background-color: var(--second-color);
@@ -242,18 +235,17 @@
 </head>
 
 <body>
-    <header class="l-header">
-        <nav class="nav">
-            <a href="#" class="nav__logo">Water Supply</a>
-            <ul class="nav__list">
-                <li class="nav__item"><a href="map.html" class="nav__link">Map</a></li>
-                <li class="nav__item"><a href="alerts.html" class="nav__link">Alerts</a></li>
-                <li class="nav__item"><a href="grievance.html" class="nav__link">Grievance</a></li>
-                <li class="nav__item"><a href="status.html" class="nav__link">Status</a></li>
-                <li class="nav__item"><a href="initial.html" class="nav__link">Logout</a></li>
-            </ul>
-        </nav>
-    </header>
+    <header>
+        <h1>Water Management DASHBOARD</h1>
+        <div class="b">
+          <nav>
+            <a href="map.html">Map</a> <a href="alerts.html">Alerts</a>
+            <a href="grievance.html">Grievance</a>
+            <a href="status.html">Status</a> <a href="index.html">Logout</a>
+            <!-- Replace with actual logout functionality -->
+          </nav>
+        </div>
+      </header>
 
     <main>
         <section class="section bd-grid">
