@@ -6,6 +6,33 @@
     <title>File Grievance - Water Supply Mapping System</title>
     <link rel="icon" href="imag/applogo.png" />
     <style>
+      /*===== VARIABLES CSS =====*/
+      :root {
+        --header-height: 3rem;
+        --font-semi: 600;
+        --hue-color: 224;
+        --first-color: hsl(var(--hue-color), 89%, 60%);
+        --second-color: hsl(var(--hue-color), 56%, 12%);
+        --body-font: ;
+        --big-font-size: 2rem;
+        --h2-font-size: 1.25rem;
+        --normal-font-size: 0.938rem;
+        --smaller-font-size: 0.75rem;
+        --mb-2: 1rem;
+        --mb-4: 2rem;
+        --mb-5: 2.5rem;
+        --mb-6: 3rem;
+        --z-back: -10;
+        --z-fixed: 100;
+      }
+      @media screen and (min-width: 968px) {
+        :root {
+          --big-font-size: 3.5rem;
+          --h2-font-size: 2rem;
+          --normal-font-size: 1rem;
+          --smaller-font-size: 0.875rem;
+        }
+      }
       /* General reset */
       * {
         margin: 0;
@@ -16,7 +43,9 @@
 
       /* Body styling */
       body {
-        background-color: #f0f4f7;
+        background-image: url("imag/dashboard.jpg");
+        background-size: cover;
+        font-family: Arial, sans-serif;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -25,25 +54,44 @@
 
       /* Header styling */
       header {
-        background-color: #4caf50;
-        color: white;
-        padding: 15px 0;
+        box-shadow: 0 1px 4px rgba(146, 161, 176, 0.15);
+        padding: 10px 0;
         text-align: center;
         width: 100%;
+        position: static;
+        z-index: var(--z-fixed);
+      }
+      h1 {
+        text-shadow: 2px 1px 10px white;
       }
 
       .b nav {
         margin-top: 10px;
+        height: var(--header-height);
+        align-items: center;
+        font-weight: var(--font-semi);
+        margin-right: 0.7rem 5rem;
       }
 
       .b a {
-        color: white;
+        background-color: var(--first-color);
+        display: inline-block;
         text-decoration: none;
-        padding: 10px;
+        padding: 0.75rem 2.5rem;
+        position: relative;
+        color: var(--second-color);
+        margin-right: 50px;
+        font-weight: var(--font-semi);
+        border-radius: 50px;
+        transition: 0.3s;
+        color: #fff;
       }
 
       .b a:hover {
-        background-color: #45a049;
+        background-color: #3df346;
+        color: #000;
+        box-shadow: 0px 10px 36px rgba(0, 0, 0, 0.15);
+        border: #ddd solid 0.2rem;
       }
 
       /* Main content styling */
@@ -55,10 +103,15 @@
       form {
         background-color: white;
         padding: 30px;
-        border-radius: 10px;
+        border-radius: 20px 50px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         max-width: 600px;
-        margin: 0 auto;
+        margin: 1rem auto;
+      }
+      form:hover {
+        box-shadow: 20px 10px 15px rgba(234, 229, 229, 0.1);
+        background-color: aliceblue;
+        transform: translate(-2px, -1px);
       }
 
       form label {
@@ -72,7 +125,7 @@
         padding: 10px;
         margin-bottom: 15px;
         border: 1px solid #ddd;
-        border-radius: 5px;
+        border-radius: 50px;
       }
 
       form button {
@@ -86,14 +139,16 @@
       }
 
       form button:hover {
-        background-color: #005f8a;
+        background-color: #2df41b;
+        color: black;
       }
 
       /* Footer styling */
       footer {
-        background-color: #f0f4f7;
+        margin-top: 5rem;
         text-align: center;
         padding: 10px;
+        border-radius: 50px;
       }
 
       footer a {
@@ -112,9 +167,9 @@
       <h1>File Grievance</h1>
       <div class="b">
         <nav>
-          <a href="map.html">Map</a> | <a href="alerts.html">Alerts</a> |
-          <a href="grievance.html">Grievance</a> |
-          <a href="status.html">Status</a> | <a href="initial.html">Logout</a>
+          <a href="map.html">Map</a> <a href="alerts.html">Alerts</a>
+          <a href="grievance.html">Grievance</a>
+          <a href="status.html">Status</a> <a href="initial.html">Logout</a>
           <!-- Replace with actual logout functionality -->
         </nav>
       </div>
