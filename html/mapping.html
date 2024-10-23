@@ -3,264 +3,146 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Manage Problems - Water Supply Mapping System</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>Water Supply Mapping</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <link rel="icon" href="imag/applogo.png" />
     <style>
-      /* General styles (unchanged from previous) */
       body {
         font-family: Arial, sans-serif;
-        line-height: 1.6;
-        background-color: #f0f0f0;
         margin: 0;
         padding: 0;
+        background: #f4f4f9;
+      }
+
+      #map {
+        height: 90vh;
+        margin: 0 auto;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      footer {
+        background: #4caf50;
+        color: white;
+        padding: 1em 0;
+        text-align: center;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
       }
 
       header {
-        background-color: #4caf50;
-        color: #fff;
-        padding: 10px 0;
+        background: #4caf50;
+        color: white;
+        padding: 1em 0;
         text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       }
 
-      .b {
-        padding: 10px;
-        background-color: #f0f0f0;
-      }
-
-      .b nav a {
-        color: #333;
+      header nav a {
+        color: white;
         text-decoration: none;
-        padding: 5px 10px;
+        padding: 0.5em 1em;
+        margin: 0 0.5em;
+        border-radius: 5px;
+        transition: background-color 0.3s;
       }
 
-      .b nav a:hover {
-        background-color: #ddd;
-        color: #333;
-      }
-
-      main {
-        max-width: 800px;
-        margin: 20px auto;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(98, 211, 22, 0.1);
-      }
-
-      .problem-list {
-        margin-top: 20px;
-      }
-
-      .problem-list table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      .problem-list th,
-      .problem-list td {
-        border: 1px solid #ddd;
-        padding: 8px;
-      }
-
-      .problem-list th {
-        background-color: #f2f2f2;
-      }
-
-      /* Styles for status buttons */
-      .status-button {
-        padding: 6px 12px;
-        border: none;
-        cursor: pointer;
-        border-radius: 4px;
-        text-decoration: none;
-        color: #fff;
-        margin-bottom: 5px;
-      }
-
-      .solved {
-        background-color: #28a745;
-      }
-
-      .unsolved {
-        background-color: #dc3545;
-      }
-
-      .delete-button {
-        padding: 6px 12px;
-        border: none;
-        cursor: pointer;
-        border-radius: 4px;
-        text-decoration: none;
-        color: #fff;
-        background-color: #dc3545;
+      header nav a:hover {
+        background-color: rgba(255, 255, 255, 0.2);
       }
     </style>
   </head>
   <body>
     <header>
-      <h1>Manage Problems</h1>
-
-      <div class="b">
-        <nav>
-          <a href="admin-dashboard.html">Admin Dashboard</a> |
-          <a href="initial.html">Logout</a>
-          <!-- Replace with actual logout functionality -->
-        </nav>
-      </div>
+      <h1>Water Supply Mapping System</h1>
+      <nav>
+        <a href="index.html">Home</a> | <a href="alerts.html">Alerts</a> |
+        <a href="grievance.html">Grievance</a> |
+        <a href="status.html">Status</a> |
+        <a href="initial.html">Logout</a>
+      </nav>
     </header>
 
-    <main>
-      <section>
-        <h2>Submitted Problems</h2>
-        <div class="problem-list" style="text-align: center">
-          <table>
-            <thead>
-              <tr>
-                <th>Full Name</th>
-                <th>Address</th>
-                <th>Location</th>
-                <th>Problem</th>
-                <th>Filed Date</th>
-                <th>Filed Time</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="problemTableBody">
-              <!-- Problems will be populated here -->
-            </tbody>
-          </table>
-        </div>
-      </section>
-    </main>
+    <div id="map"></div>
+
     <footer>
       <p>&copy; 2024 Water Supply Mapping System. All rights reserved.</p>
-      <br />
-      <p>Developed By</p>
+      <p>Developed By:</p>
       <p>Ankit &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;group no 9</p>
       <p>Email: <a href="mailto:ankit@gmail.com">ankit@gmail.com</a></p>
     </footer>
 
-    <script src="scripts.js"></script>
+    <!-- Include Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script>
-      // Function to populate problems from localStorage
-      function populateProblemTable() {
-        const problems =
-          JSON.parse(localStorage.getItem("adminProblems")) || [];
+      // Initialize the map
+      const map = L.map("map").setView([19.2867, 72.8610], 15); // Set the initial view to the starting point
 
-        const problemTableBody = document.getElementById("problemTableBody");
-        problemTableBody.innerHTML = "";
+      // Add OpenStreetMap tile layer
+      const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap contributors'
+      }).addTo(map);
 
-        problems.forEach((problem, index) => {
-          const row = document.createElement("tr");
-          row.innerHTML = `
-                    <td>${problem.fullName}</td>
-                    <td>${problem.address}</td>
-                    <td>${problem.location}</td>
-                    <td>${problem.problem}</td>
-                    <td>${problem.filedDate}</td>
-                    <td>${problem.filedTime}</td>
-                    <td>${problem.status}</td>
-                    <td>
-                        <button class="status-button ${
-                          problem.status === "Solved" ? "solved" : "unsolved"
-                        }"
-                                onclick="changeStatus(${index})">
-                            ${
-                              problem.status === "Solved"
-                                ? "Mark Unsolved"
-                                : "Mark Solved"
-                            }
-                        </button>
-                        <button class="delete-button" onclick="confirmDelete(${index})">Delete</button>
-                    </td>
-                `;
-          problemTableBody.appendChild(row);
-        });
+      // Add markers for the locations
+      const kanakiaPark = L.marker([19.2867, 72.8610]).addTo(map).bindPopup('Kanakia Park').bindTooltip('Shree LR Tiwari College Of Engineering', { permanent: true, direction: "right" });
+      const lalBahadurMarg = L.marker([19.2834, 72.8683]).addTo(map).bindPopup('Lal Bahadur Shastri Marg').bindTooltip('Lal Bahadur Shastri Marg', { permanent: true, direction: "right" });
+      const ozoneBudha = L.marker([19.2766, 72.8644]).addTo(map).bindPopup('Ozone 3 Budha Enterprises').bindTooltip('Ozone 3 Budha Enterprises', { permanent: true, direction: "right" });
+      const inorbitMall = L.marker([19.1750, 72.8363]).addTo(map).bindPopup('Inorbit Mall, Malad').bindTooltip('Inorbit Mall, Malad', { permanent: true, direction: "right" });
+
+      // Function to create a colorful animated pipe
+      function animatePipe(start, end) {
+        let line = L.polyline([start, start], { color: getRandomColor(), weight: 4 }).addTo(map); // Start with an empty line
+        let progress = 0; // Progress percentage (0 to 1)
+
+        const animate = () => {
+          progress += 0.01; // Increment the progress
+          if (progress <= 1) {
+            const lat = start[0] + (end[0] - start[0]) * progress;
+            const lng = start[1] + (end[1] - start[1]) * progress;
+            line.setLatLngs([[start[0], start[1]], [lat, lng]]); // Update line to current progress
+            requestAnimationFrame(animate); // Continue the animation
+          } else {
+            // Finish drawing the line
+            line.setLatLngs([start, end]);
+            // After finishing, start the animation again
+            setTimeout(() => {
+              line.remove(); // Remove the line for the next cycle
+              animatePipe(start, end); // Restart the animation
+            }, 1000); // Wait for a second before restarting
+          }
+        };
+
+        animate(); // Start the animation
       }
 
-      // Function to change grievance status
-      function changeStatus(index) {
-        let problems = JSON.parse(localStorage.getItem("adminProblems")) || [];
-
-        // Toggle status
-        if (problems[index].status === "Solved") {
-          problems[index].status = "Unsolved";
-        } else {
-          problems[index].status = "Solved";
+      // Function to get a random color
+      function getRandomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
         }
-
-        // Update localStorage
-        localStorage.setItem("adminProblems", JSON.stringify(problems));
-
-        // Repopulate table
-        populateProblemTable();
-
-        // Update user grievance status in status.html
-        updateGrievanceStatus(problems[index]);
+        return color;
       }
 
-      // Function to update user grievance status in status.html
-      function updateGrievanceStatus(problem) {
-        let userGrievances =
-          JSON.parse(localStorage.getItem("userGrievances")) || [];
+      // Define the connections
+      const connections = [
+        [19.2867, 72.8610, 19.2834, 72.8683],  // Kanakia to Lal Bahadur Shastri Marg
+        [19.2867, 72.8610, 19.2766, 72.8644],  // Kanakia to Ozone 3 Budha Enterprises
+        [19.2867, 72.8610, 19.1750, 72.8363]   // Kanakia to Inorbit Mall
+      ];
 
-        // Find corresponding grievance in userGrievances
-        const userGrievance = userGrievances.find(
-          (g) =>
-            g.fullName === problem.fullName && g.filedDate === problem.filedDate
-        );
+      // Start animating all connections
+      connections.forEach(conn => animatePipe([conn[0], conn[1]], [conn[2], conn[3]]));
 
-        if (userGrievance) {
-          userGrievance.status = problem.status;
-
-          // Update localStorage
-          localStorage.setItem(
-            "userGrievances",
-            JSON.stringify(userGrievances)
-          );
-        }
-      }
-
-      // Function to confirm and delete a problem
-      function confirmDelete(index) {
-        if (confirm("Are you sure you want to delete this problem?")) {
-          let problems =
-            JSON.parse(localStorage.getItem("adminProblems")) || [];
-          const deletedProblem = problems.splice(index, 1)[0]; // Remove problem from array
-
-          // Update localStorage
-          localStorage.setItem("adminProblems", JSON.stringify(problems));
-
-          // Repopulate table
-          populateProblemTable();
-
-          // Delete corresponding problem in status.html
-          deleteFromStatus(deletedProblem);
-        }
-      }
-
-      // Function to delete corresponding problem in status.html
-      function deleteFromStatus(problem) {
-        let userGrievances =
-          JSON.parse(localStorage.getItem("userGrievances")) || [];
-
-        // Filter out the problem to delete
-        userGrievances = userGrievances.filter(
-          (g) =>
-            !(
-              g.fullName === problem.fullName &&
-              g.filedDate === problem.filedDate
-            )
-        );
-
-        // Update localStorage
-        localStorage.setItem("userGrievances", JSON.stringify(userGrievances));
-      }
-
-      // Populate the table when the page loads
-      document.addEventListener("DOMContentLoaded", populateProblemTable);
+      // Zoom to the starting point with animation
+      map.flyTo([19.2867, 72.8610], 15, {
+        animate: true,
+        duration: 2 // Duration in seconds
+      });
     </script>
   </body>
 </html>
