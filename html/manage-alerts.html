@@ -8,41 +8,42 @@
     <link rel="icon" href="imag/applogo.png" />
     <style>
       body {
+        background-image: url("imag/admin.jpg");
+        background-size: cover;
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 0;
-        background: #f4f4f9;
       }
 
       header {
-        width: 100%;
-        background-color: rgba(76, 175, 80, 0.8);
-        padding: 1em 0;
-        margin-bottom: 2em;
+        background-color: #cbc8bf;
+        color: #000;
+        padding: 1px 0;
         text-align: center;
-        color: white;
-        font-size: 1.5em;
-        border-radius: 5px;
+      }
+      h1 {
+        margin: -0.2px 0;
       }
 
-      nav {
-        display: flex;
-        justify-content: center;
-        gap: 1em;
-        margin-bottom: 2em;
+      .b {
+        padding: 10px 0;
+        background-color: #cbc8bf;
+        margin: 1rem 0.5rem;
       }
 
-      nav a {
+      .b nav a {
         color: white;
+        background-color: #000;
         text-decoration: none;
-        padding: 0.5em 1em;
-        background-color: rgba(76, 175, 80, 0.8);
-        border-radius: 5px;
-        transition: background-color 0.3s;
+        padding: 10px 2rem;
+        margin: 10px 3rem;
+        border-radius: 5px 10px;
+        font-size: bold;
       }
 
-      nav a:hover {
-        background-color: rgba(69, 160, 73, 0.8);
+      .b nav a:hover {
+        background-color: whitesmoke;
+        color: #000;
       }
 
       .container {
@@ -62,7 +63,7 @@
       table {
         width: 100%;
         border-collapse: collapse;
-        margin-bottom: 2em;
+        margin: 2rem 0;
       }
 
       table th,
@@ -73,12 +74,13 @@
       }
 
       table th {
-        background-color: rgba(76, 175, 80, 0.8);
-        color: white;
+        background-color: #f2f2f2;
+        color: black;
       }
 
       table td {
-        background-color: #f9f9f9;
+        background-color: white;
+        color: #000;
       }
 
       table tr:hover td {
@@ -116,6 +118,9 @@
           font-size: 14px;
         }
       }
+      footer {
+        text-align: center;
+      }
     </style>
   </head>
   <body>
@@ -149,6 +154,16 @@
         </tbody>
       </table>
     </div>
+    <footer>
+      <p>&copy; 2024 Water Supply Mapping System. All rights reserved.</p>
+      <br />
+      <p>Developed By</p>
+      <p>
+        Vishwajeet, Ankit & Himanshu &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;group
+        no 9
+      </p>
+      <p>Email: <a href="mailto:ankit@gmail.com">ankit@gmail.com</a></p>
+    </footer>
     <script>
       function populateManageAlertsTable() {
         var alerts = JSON.parse(localStorage.getItem("alerts")) || [];
