@@ -28,5 +28,5 @@
   </tr> 
 </table>
 
-<b>1. First file is index.html ->so open this one first<b>
+<b>1. First file is initial.html ->so open this one first<b>
 
