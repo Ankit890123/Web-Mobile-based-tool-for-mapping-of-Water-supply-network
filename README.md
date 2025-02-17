@@ -25,3 +25,9 @@ This project aims to enhance water distribution management through **digital tra
 1. Clone the repository:  
    ```sh
    git clone https://github.com/Ankit890123/Web-Mobile-based-tool-for-mapping-of-Water-supply-network
+
+🤝 Contact
+For questions, suggestions, or issues, feel free to contact:
+📩 Email: [ankit.a.gupta@slrtce.in] [vishwajeet.b.awale@slrtce.in] [himanshu.b.mishra@slrtce.in]
+🌍 GitHub: [https://github.com/vishwajeet003]
+📢 LinkedIn: [https://www.linkedin.com/in/vishwajeet-awale/]
