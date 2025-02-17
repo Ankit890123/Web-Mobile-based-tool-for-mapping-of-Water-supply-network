@@ -1,32 +1,28 @@
-<h1>
-  :om: The topic of project : 
-</h1>
-<h2> :point_right: Web /Mobile based tool for mapping of Water supply network</h2>
-<p><i>
-  It is project which is focued on the creating the software for tracking as well as mangaing the water flow and storage. People can file the complain about water suppy. The authorities are also connected to this system to answer their questions. 
-</i></p>
-<table>
-  <tr>
-    <th>Sr.</th>
-    <th>Group Members.</th>
-    <th>Roll no.</th>
-  </tr>
-  <tr>
-    <td>01</td>
-    <td>Vishwajeet Awale</td>
-    <td>03</td>
-  </tr>
-  <tr>
-    <td>02</td>
-    <td>Ankitkumar Gupta</td>
-    <td>10</td>
-  </tr>
-  <tr>
-    <td>03</td>
-    <td>Himanshu Mishra</td>
-    <td>24</td>
-  </tr> 
-</table>
+# 🌊 Water Supply Network Management System  
 
-<b>1. First file is initial.html ->so open this one first<b>
+## 📌 About the Project  
+The **Water Supply Network Management System** is a web and mobile-based platform designed to track, manage, and optimize the distribution of water. It provides real-time monitoring of water flow and storage levels while allowing citizens to file complaints regarding water supply issues. Authorities can respond to complaints, address queries, and manage water resources efficiently.  
 
+This project aims to enhance water distribution management through **digital tracking, user engagement, and authority collaboration.**  
+
+## 🚀 Key Features  
+✅ **Water Flow & Storage Tracking** – Monitor real-time water flow and storage levels.  
+✅ **Complaint Management System** – Users can report water supply issues directly from the app.  
+✅ **Authority Dashboard** – Government bodies can access complaints, respond to queries, and optimize water distribution.  
+✅ **Interactive Mapping** – Visual representation of water supply networks for better management.  
+✅ **User Notifications** – Updates on water supply status, complaint progress, and responses from authorities.  
+✅ **Mobile & Web Support** – Cross-platform accessibility for users and administrators.  
+
+## 🛠️ Tech Stack  
+🔹 **Frontend:** HTML, CSS, JavaScript
+🔹 **Mapping API:** Leaflet.js / Google Maps API (for network visualization)  
+🔹 **Authentication:** Firebase 
+🔹 **Hosting & Deployment:** versel / GitHub pages / Netlify  
+
+## ⚡ Getting Started  
+
+### **1 Installation**  
+1. Clone the repository:  
+   ```sh
+   git clone https://github.com/your-username/water-supply-management.git
+   cd water-supply-management
