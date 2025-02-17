@@ -24,5 +24,4 @@ This project aims to enhance water distribution management through **digital tra
 ### **1 Installation**  
 1. Clone the repository:  
    ```sh
-   git clone https://github.com/your-username/water-supply-management.git
-   cd water-supply-management
+   git clone https://github.com/Ankit890123/Web-Mobile-based-tool-for-mapping-of-Water-supply-network
