@@ -114,9 +114,25 @@
         <h2 style="text-align: center">Register</h2>
         <form id="adminRegister">
           <label for="firstName">First Name:</label>
-          <input type="text" id="firstName" name="firstName" required />
+          <input
+            type="text"
+            id="firstName"
+            name="firstName"
+            required
+            pattern="^[A-Za-z]{2,}$"
+            title="Only alphabets, minimum 2 characters"
+          />
+
           <label for="lastName">Last Name:</label>
-          <input type="text" id="lastName" name="lastName" required />
+          <input
+            type="text"
+            id="lastName"
+            name="lastName"
+            required
+            pattern="^[A-Za-z]{2,}$"
+            title="Only alphabets, minimum 2 characters"
+          />
+
           <label for="adminInfrastructure">Infrastructure Type:</label>
           <select id="adminInfrastructure" name="adminInfrastructure" required>
             <option value="surfaceWaterIntakes">Surface Water Intakes</option>
@@ -128,15 +144,30 @@
             </option>
             <option value="plumbing">Plumbing</option>
           </select>
+
           <label for="adminUsername">Admin Username:</label>
-          <input type="text" id="adminUsername" name="adminUsername" required />
+          <input
+            type="text"
+            id="adminUsername"
+            name="adminUsername"
+            required
+            pattern="^[a-zA-Z0-9_]{5,}$"
+            title="Alphanumeric, at least 5 characters"
+          />
+
+          <label for="adminEmail">Email:</label>
+          <input type="email" id="adminEmail" name="adminEmail" required />
+
           <label for="adminPassword">Password:</label>
           <input
             type="password"
             id="adminPassword"
             name="adminPassword"
             required
+            minlength="8"
+            title="Minimum 8 characters required"
           />
+
           <label for="confirmAdminPassword">Confirm Password:</label>
           <input
             type="password"
@@ -144,73 +175,57 @@
             name="confirmAdminPassword"
             required
           />
+
           <button type="submit">Register</button>
         </form>
       </section>
     </main>
+
     <footer>
       <p>&copy; 2024 Water Supply Mapping System. All rights reserved.</p>
-      <br />
-      <p>Developed By</p>
-      <p>
-        Vishwajeet, Ankit & Himanshu &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;group
-        no 9
-      </p>
-      <p>Email: <a href="mailto:ankit@gmail.com">ankit@gmail.com</a></p>
     </footer>
 
-    <script src="scripts.js"></script>
     <script>
-      // Handle admin registration form submission
       document
         .getElementById("adminRegister")
         .addEventListener("submit", function (event) {
-          event.preventDefault(); // Prevent form submission
+          event.preventDefault();
 
-          // Retrieve input values
-          let firstName = document.getElementById("firstName").value;
-          let lastName = document.getElementById("lastName").value;
-          let adminInfrastructure = document.getElementById(
-            "adminInfrastructure"
-          ).value;
-          let adminUsername = document.getElementById("adminUsername").value;
-          let adminPassword = document.getElementById("adminPassword").value;
-          let confirmAdminPassword = document.getElementById(
+          let password = document.getElementById("adminPassword").value;
+          let confirmPassword = document.getElementById(
             "confirmAdminPassword"
           ).value;
+          let email = document.getElementById("adminEmail").value;
+          let username = document.getElementById("adminUsername").value;
 
-          // Validate passwords match
-          if (adminPassword !== confirmAdminPassword) {
-            alert("Passwords do not match. Please try again.");
+          if (password !== confirmPassword) {
+            alert("Passwords do not match.");
             return;
           }
 
-          // Retrieve existing admins data from localStorage
-          let storedAdmins = JSON.parse(localStorage.getItem("admins")) || [];
-
-          // Check if username already exists
-          let existingAdmin = storedAdmins.find(
-            (admin) => admin.username === adminUsername
-          );
-          if (existingAdmin) {
+          if (
+            !/^(?=.[a-z])(?=.[A-Z])(?=.\d)[A-Za-z\d@$!%?&]{8,}$/.test(password)
+          ) {
             alert(
-              "Username already exists. Please choose a different username."
+              "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number."
             );
             return;
           }
 
-          // Add new admin to the storage
-          storedAdmins.push({
-            firstName: firstName,
-            lastName: lastName,
-            infrastructure: adminInfrastructure,
-            username: adminUsername,
-            password: adminPassword,
-          });
+          let storedAdmins = JSON.parse(localStorage.getItem("admins")) || [];
+          if (
+            storedAdmins.some(
+              (admin) => admin.username === username || admin.email === email
+            )
+          ) {
+            alert(
+              "Username or Email already exists. Please use a different one."
+            );
+            return;
+          }
 
-          // Save updated admin data to localStorage
+          storedAdmins.push({ username, email, password });
           localStorage.setItem("admins", JSON.stringify(storedAdmins));
-
           alert("Admin registered successfully.");
           window.location.href = "admin-login.html";
         });

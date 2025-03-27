@@ -6,7 +6,6 @@
     <title>File Grievance - Water Supply Mapping System</title>
     <link rel="icon" href="imag/applogo.png" />
     <style>
-      /*===== VARIABLES CSS =====*/
       :root {
         --header-height: 3rem;
         --font-semi: 600;
@@ -208,7 +207,7 @@
         ></textarea>
 
         <label for="media">Upload Images/Videos:</label>
-        <input type="file" id="media" name="media" accept="image/*, video/*" />
+        <input type="file" id="media" name="media" accept="image/, video/" />
 
         <button type="submit">Submit</button>
       </form>
@@ -234,54 +233,79 @@
     <script>
       document
         .getElementById("grievanceForm")
-        .addEventListener("submit", function (event) {
-          event.preventDefault(); // Prevent form submission
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
 
-          const fullName = document.getElementById("fullName").value;
-          const address = document.getElementById("address").value;
-          const location = document.getElementById("location").value;
-          const problem = document.getElementById("problem").value;
-          const media = document.getElementById("media").value;
+          // Validate full name (only alphabets and spaces allowed)
+          const fullName = document.getElementById("fullName").value.trim();
+          const nameRegex = /^[A-Za-z\s]+$/;
+          if (!nameRegex.test(fullName)) {
+            alert(
+              "Please enter a valid full name (only letters and spaces allowed)"
+            );
+            return;
+          }
 
-          const currentDate = new Date();
-          const filedDate = currentDate.toLocaleDateString();
-          const filedTime = currentDate.toLocaleTimeString();
+          // File input handling
+          const fileInput = document.getElementById("media");
+          const file = fileInput.files[0];
 
-          // Prepare grievance object
+          // Convert image to Base64
+          const media = await new Promise((resolve) => {
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = (e) => resolve(e.target.result);
+              reader.readAsDataURL(file);
+            } else {
+              resolve(null);
+            }
+          });
+
+          // Get other form values
           const grievance = {
             fullName: fullName,
-            address: address,
-            location: location,
-            problem: problem,
-            filedDate: filedDate,
-            filedTime: filedTime,
-            media: media,
-            status: "Unsolved", // Default status when submitted
+            address: document.getElementById("address").value,
+            location: document.getElementById("location").value,
+            problem: document.getElementById("problem").value,
+            filedDate: new Date().toLocaleDateString(),
+            filedTime: new Date().toLocaleTimeString(),
+            media: media, // Store Base64 data
+            status: "Unsolved",
           };
 
-          // Save grievance to localStorage for status.html (for users)
-          let userGrievances =
-            JSON.parse(localStorage.getItem("userGrievances")) || [];
-          userGrievances.push(grievance);
-          localStorage.setItem(
-            "userGrievances",
-            JSON.stringify(userGrievances)
-          );
+          // Save to localStorage
+          const saveData = (key, data) => {
+            let existing = JSON.parse(localStorage.getItem(key)) || [];
+            existing.push(data);
+            localStorage.setItem(key, JSON.stringify(existing));
+          };
 
-          // Save grievance to localStorage for manage-problems.html (for admin)
-          let adminProblems =
-            JSON.parse(localStorage.getItem("adminProblems")) || [];
-          adminProblems.push(grievance);
-          localStorage.setItem("adminProblems", JSON.stringify(adminProblems));
+          saveData("userGrievances", grievance);
+          saveData("adminProblems", grievance);
 
-          // Display submission message
+          // Show success message
           const submissionMessage =
             document.getElementById("submissionMessage");
-          submissionMessage.innerText = "Grievance submitted successfully.";
+          submissionMessage.innerHTML = `
+            <p style="color: green;">Grievance submitted successfully!</p>
+            ${
+              media
+                ? `<img src="${media}" style="max-width: 200px; margin-top: 10px;">`
+                : ""
+            }
+          `;
           submissionMessage.style.display = "block";
 
-          // Clear form fields after submission
-          document.getElementById("grievanceForm").reset();
+          // Reset form
+          this.reset();
+        });
+
+      // Add real-time validation for full name (alphabets only)
+      document
+        .getElementById("fullName")
+        .addEventListener("input", function () {
+          const regex = /^[A-Za-z\s]*$/; // Allows alphabets and spaces only
+          this.style.borderColor = regex.test(this.value) ? "green" : "red";
         });
     </script>
   </body>

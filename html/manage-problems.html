@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="styles.css" />
     <link rel="icon" href="imag/applogo.png" />
     <style>
-      /* General styles (unchanged from previous) */
       body {
         background-image: url("imag/admin.jpg");
         background-size: cover;
@@ -49,7 +48,7 @@
       }
 
       main {
-        max-width: 800px;
+        max-width: 1000px;
         margin: 20px auto;
         background-color: #fff;
         padding: 20px;
@@ -108,21 +107,95 @@
       footer {
         text-align: center;
       }
+      /* Additional styles for image display */
+      .problem-image {
+        max-width: 100px;
+        max-height: 100px;
+        display: block;
+        margin: auto;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+
+      .problem-image:hover {
+        transform: scale(1.1);
+      }
+
+      /* Full screen image overlay */
+      .image-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 9999;
+        cursor: zoom-out;
+      }
+
+      .fullscreen-image {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 90%;
+        max-height: 90%;
+        object-fit: contain;
+        border: 2px solid white;
+        border-radius: 5px;
+      }
+
+      /* Existing table styles */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+      }
+
+      th,
+      td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #f4f4f4;
+      }
+
+      .status-button,
+      .delete-button {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+
+      .solved {
+        background-color: #4caf50;
+        color: white;
+      }
+      .unsolved {
+        background-color: #f44336;
+        color: white;
+      }
+      .delete-button {
+        background-color: #555;
+        color: white;
+      }
     </style>
   </head>
   <body>
     <header>
       <h1>Manage Problems</h1>
-
       <div class="b">
         <nav>
           <a href="admin-dashboard.html">Admin Dashboard</a> |
           <a href="initial.html">Logout</a>
-          <!-- Replace with actual logout functionality -->
         </nav>
       </div>
     </header>
-
     <main>
       <section>
         <h2>Submitted Problems</h2>
@@ -136,6 +209,7 @@
                 <th>Problem</th>
                 <th>Filed Date</th>
                 <th>Filed Time</th>
+                <th>Image</th>
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
@@ -149,133 +223,92 @@
     </main>
     <footer>
       <p>&copy; 2024 Water Supply Mapping System. All rights reserved.</p>
-      <br />
-      <p>Developed By</p>
-      <p>
-        Vishwajeet, Ankit & Himanshu &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;group
-        no 9
-      </p>
-      <p>Email: <a href="mailto:ankit@gmail.com">ankit@gmail.com</a></p>
     </footer>
 
-    <script src="scripts.js"></script>
+    <!-- Full screen image overlay -->
+    <div class="image-overlay" onclick="closeFullScreen()">
+      <img class="fullscreen-image" src="" alt="Full screen image" />
+    </div>
+
     <script>
-      // Function to populate problems from localStorage
       function populateProblemTable() {
         const problems =
           JSON.parse(localStorage.getItem("adminProblems")) || [];
-
         const problemTableBody = document.getElementById("problemTableBody");
         problemTableBody.innerHTML = "";
-
         problems.forEach((problem, index) => {
           const row = document.createElement("tr");
           row.innerHTML = `
-                    <td>${problem.fullName}</td>
-                    <td>${problem.address}</td>
-                    <td>${problem.location}</td>
-                    <td>${problem.problem}</td>
-                    <td>${problem.filedDate}</td>
-                    <td>${problem.filedTime}</td>
-                    <td>${problem.status}</td>
-                    <td>
-                        <button class="status-button ${
-                          problem.status === "Solved" ? "solved" : "unsolved"
-                        }"
-                                onclick="changeStatus(${index})">
-                            ${
-                              problem.status === "Solved"
-                                ? "Mark Unsolved"
-                                : "Mark Solved"
-                            }
-                        </button>
-                        <button class="delete-button" onclick="confirmDelete(${index})">Delete</button>
-                    </td>
-                `;
+            <td>${problem.fullName}</td>
+            <td>${problem.address}</td>
+            <td>${problem.location}</td>
+            <td>${problem.problem}</td>
+            <td>${problem.filedDate}</td>
+            <td>${problem.filedTime}</td>
+            <td>
+              <img src="${problem.media}" 
+                   alt="Problem Image" 
+                   class="problem-image" 
+                   onclick="openFullScreen('${problem.media}')" />
+            </td>
+            <td>${problem.status}</td>
+            <td>
+              <button class="status-button ${
+                problem.status === "Solved" ? "solved" : "unsolved"
+              }" 
+                      onclick="changeStatus(${index})">
+                ${problem.status === "Solved" ? "Mark Unsolved" : "Mark Solved"}
+              </button>
+              <button class="delete-button" onclick="confirmDelete(${index})">Delete</button>
+            </td>
+          `;
           problemTableBody.appendChild(row);
         });
       }
 
-      // Function to change grievance status
       function changeStatus(index) {
-        let problems = JSON.parse(localStorage.getItem("adminProblems")) || [];
-
-        // Toggle status
-        if (problems[index].status === "Solved") {
-          problems[index].status = "Unsolved";
-        } else {
-          problems[index].status = "Solved";
-        }
-
-        // Update localStorage
-        localStorage.setItem("adminProblems", JSON.stringify(problems));
-
-        // Repopulate table
-        populateProblemTable();
-
-        // Update user grievance status in status.html
-        updateGrievanceStatus(problems[index]);
-      }
-
-      // Function to update user grievance status in status.html
-      function updateGrievanceStatus(problem) {
-        let userGrievances =
-          JSON.parse(localStorage.getItem("userGrievances")) || [];
-
-        // Find corresponding grievance in userGrievances
-        const userGrievance = userGrievances.find(
-          (g) =>
-            g.fullName === problem.fullName && g.filedDate === problem.filedDate
-        );
-
-        if (userGrievance) {
-          userGrievance.status = problem.status;
-
-          // Update localStorage
-          localStorage.setItem(
-            "userGrievances",
-            JSON.stringify(userGrievances)
-          );
+        const problems =
+          JSON.parse(localStorage.getItem("adminProblems")) || [];
+        if (problems[index]) {
+          problems[index].status =
+            problems[index].status === "Solved" ? "Unsolved" : "Solved";
+          localStorage.setItem("adminProblems", JSON.stringify(problems));
+          populateProblemTable();
         }
       }
 
-      // Function to confirm and delete a problem
       function confirmDelete(index) {
         if (confirm("Are you sure you want to delete this problem?")) {
-          let problems =
+          const problems =
             JSON.parse(localStorage.getItem("adminProblems")) || [];
-          const deletedProblem = problems.splice(index, 1)[0]; // Remove problem from array
-
-          // Update localStorage
+          problems.splice(index, 1);
           localStorage.setItem("adminProblems", JSON.stringify(problems));
-
-          // Repopulate table
           populateProblemTable();
-
-          // Delete corresponding problem in status.html
-          deleteFromStatus(deletedProblem);
         }
       }
 
-      // Function to delete corresponding problem in status.html
-      function deleteFromStatus(problem) {
-        let userGrievances =
-          JSON.parse(localStorage.getItem("userGrievances")) || [];
-
-        // Filter out the problem to delete
-        userGrievances = userGrievances.filter(
-          (g) =>
-            !(
-              g.fullName === problem.fullName &&
-              g.filedDate === problem.filedDate
-            )
-        );
-
-        // Update localStorage
-        localStorage.setItem("userGrievances", JSON.stringify(userGrievances));
+      function openFullScreen(imageUrl) {
+        const overlay = document.querySelector(".image-overlay");
+        const fullscreenImg = document.querySelector(".fullscreen-image");
+        fullscreenImg.src = imageUrl;
+        overlay.style.display = "block";
+        document.body.style.overflow = "hidden";
       }
 
-      // Populate the table when the page loads
+      function closeFullScreen() {
+        document.querySelector(".image-overlay").style.display = "none";
+        document.body.style.overflow = "auto";
+      }
+
+      // Handle keyboard events for full screen view
+      document.addEventListener("keydown", (e) => {
+        const overlay = document.querySelector(".image-overlay");
+        if (overlay.style.display === "block" && e.key === "Escape") {
+          closeFullScreen();
+        }
+      });
+
+      // Initialize the table when page loads
       document.addEventListener("DOMContentLoaded", populateProblemTable);
     </script>
   </body>
